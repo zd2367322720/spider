@@ -38,5 +38,5 @@ for html_url in html_urls:
         p_url = f"http://www.cosplay8.com//uploads/allimg/{photos_ul[0]}.jpg"
         p_file = requests.get(url=p_url, headers=headers).content
         print(f"正在下载{html_t}{i}")
-        with open(f"cos/{html_t}{i}.jpg", mode='wb') as f:
+        with open(f"{path}/cos/{html_t}{i}.jpg", mode='wb') as f:
             f.write(p_file)
