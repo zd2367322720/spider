@@ -6,9 +6,12 @@ import os
 path = os.getcwd()
 if not os.path.exists(f"{path}/cos"):
     os.mkdir(f"{path}/cos")
-n = int(input("您需要多少页才可以满足："))
-for h in range(1, n):
-    url = f'http://www.cosplay8.com/pic/chinacos/list_22_{h}.html'
+n = int(input("您需要多少页："))
+for h in range(1, n+1):
+    if h == 1:
+        url = 'http://www.cosplay8.com/pic/chinacos'
+    else:
+        url = f'http://www.cosplay8.com/pic/chinacos/list_22_{h}.html'
     headers = {
         "Referer": "http://www.cosplay8.com/pic/chinacos/",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.5112.102 Safari/537.36 Edg/104.0.1293.63"
