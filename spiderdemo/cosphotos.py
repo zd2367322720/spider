@@ -2,8 +2,10 @@ import bs4
 import requests
 import re
 from bs4 import BeautifulSoup
-
-photo_dict = []
+import os
+path = os.getcwd()
+if not os.path.exists(f"{path}/cos"):
+    os.mkdir(f"{path}/cos")
 url = 'http://www.cosplay8.com/pic/chinacos/'
 headers = {
     "Referer": "http://www.cosplay8.com/pic/chinacos/",
@@ -12,7 +14,8 @@ headers = {
 response = requests.get(url=url, headers=headers)
 response.encoding = 'utf-8'
 html_urls = re.findall(
-    '<p class="tcenter line24 yahei font16"><a href="/pic/chinacos/(.*?).html" target="_blank" class="txtover" title="(.*?)">(.*?)</a>',
+    '<p class="tcenter line24 yahei font16"><a href="/pic/chinacos/(.*?).html" target="_blank" class="txtover" '
+    'title="(.*?)">(.*?)</a>',
     response.text)
 for html_url in html_urls:
     html_u = html_url[0]
@@ -31,3 +34,9 @@ for html_url in html_urls:
             page_url = f"http://www.cosplay8.com/pic/chinacos/{html_u}_{i}.html"
         photos_list = requests.get(url=page_url, headers=headers)
         photos_list.encoding = 'utf-8'
+        photos_ul = re.findall("<img src='/uploads/allimg/(.*?).jpg' id='bigimg'  width='800'  alt='' border='0' />", photos_list.text)
+        p_url = f"http://www.cosplay8.com//uploads/allimg/{photos_ul[0]}.jpg"
+        p_file = requests.get(url=p_url, headers=headers).content
+        print(f"正在下载{html_t}{i}")
+        with open(f"cos/{html_t}{i}.jpg", mode='wb') as f:
+            f.write(p_file)
